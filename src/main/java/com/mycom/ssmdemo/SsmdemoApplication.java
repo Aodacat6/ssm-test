@@ -7,7 +7,6 @@ import org.springframework.context.annotation.ComponentScan;
 
 @MapperScan({"com.mycom.ssmdemo.mapper"})
 @SpringBootApplication
-@ComponentScan("com.mycom.*")
 public class SsmdemoApplication {
 
 	public static void main(String[] args) {
