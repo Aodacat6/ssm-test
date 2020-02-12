@@ -3,6 +3,8 @@ package com.mycom.ssmdemo.cotroller.vip;
 import com.mycom.ssmdemo.common.message.ResponseData;
 import com.mycom.ssmdemo.entity.vip.VipInfo;
 import com.mycom.ssmdemo.service.vip.VipService;
+import com.mycom.ssmdemo.util.LoggerUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/vip")
@@ -41,6 +44,7 @@ public class VipInfoController {
 
     @PostMapping("/insertvip")
     public ResponseData insertVip(@RequestParam Map<String,Object> params ){
+        LoggerUtils.getLogger().info(params.toString());
         vipService.insertVip(params);
         return ResponseData.ok();
     }
