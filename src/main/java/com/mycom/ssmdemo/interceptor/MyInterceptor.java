@@ -3,8 +3,6 @@ package com.mycom.ssmdemo.interceptor;
 import com.alibaba.fastjson.JSONObject;
 import com.mycom.ssmdemo.common.commexception.BizException;
 import com.mycom.ssmdemo.util.LoggerUtils;
-//import com.mysql.cj.util.LogUtils;
-//import com.mysql.cj.util.StringUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
