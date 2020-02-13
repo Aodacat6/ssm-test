@@ -4,6 +4,7 @@ import com.mycom.ssmdemo.common.message.ResponseData;
 import com.mycom.ssmdemo.entity.vip.VipInfo;
 import com.mycom.ssmdemo.service.vip.VipService;
 import com.mycom.ssmdemo.util.LoggerUtils;
+import com.mycom.ssmdemo.util.RedisUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,8 @@ public class VipInfoController {
 
     @Autowired
     VipService vipService;
+    @Autowired
+    RedisUtils redisUtils;
     @GetMapping("/test/{msg}")
     public String test(@PathVariable String msg){
         return msg;
@@ -47,5 +50,15 @@ public class VipInfoController {
         LoggerUtils.getLogger().info(params.toString());
         vipService.insertVip(params);
         return ResponseData.ok();
+    }
+
+    @GetMapping("/redisinserttest")
+    public Boolean redisInsertTest(@RequestParam String key, String value){
+        return redisUtils.set(key,value);
+    }
+
+    @GetMapping("/redisquerytest")
+    public String redisQueryTest(@RequestParam String key){
+        return redisUtils.get(key).toString();
     }
 }
