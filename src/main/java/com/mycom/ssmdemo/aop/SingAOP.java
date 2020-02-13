@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class SingAOP {
 
-    @Before("execution( * com.mycom.ssmdemo.cotroller.vip.VipInfoController.*(..))")
+    @Before("execution( * com.mycom.ssmdemo.controller.vip.VipInfoController.*(..))")
     public void doBefore(JoinPoint joinPoint){
         System.out.println("-----------------in----------------------");
         Object[] obj = joinPoint.getArgs();

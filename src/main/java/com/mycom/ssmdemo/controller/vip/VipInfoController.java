@@ -1,4 +1,4 @@
-package com.mycom.ssmdemo.cotroller.vip;
+package com.mycom.ssmdemo.controller.vip;
 
 import com.mycom.ssmdemo.common.message.ResponseData;
 import com.mycom.ssmdemo.entity.vip.VipInfo;
