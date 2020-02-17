@@ -74,13 +74,38 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+	<!-- 这是maven的profile配置文件切换处，搭配springboot自身的profile切换机制，
+	 实现maven中选择配置并注入springboot-->
+	<!--统一配置-->
+	<profiles>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<profileActive>pro</profileActive>
+			</properties>
+		</profile>
 
+		<profile>
+			<id>test</id>
+			<properties>
+				<profileActive>test</profileActive>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
+
+	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>application.yml</include>
+					<include>application-${profileActive}.yml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>
