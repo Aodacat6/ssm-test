@@ -1,6 +1,5 @@
 package com.mycom.ssmdemo.utiltest.mqtest;
 
-import com.mycom.ssmdemo.util.RabbitMqUtils;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Component;
 //@RabbitListener监听队列，当队列有消息时会自动获取
 //@RabbitListener 标注在类上面表示当有收到消息的时候，就交给 @RabbitHandler 的方法
 // 处理，具体使用哪个方法处理，根据 MessageConverter 转换后的参数类型
-//@RabbitListener(queues = RabbitMqUtils.queueName)
-public class SimpleReceiver {
+//@RabbitListener(queues = "direct")
+public class DirectExchangeReceiver {
 
     //@RabbitHandler
     public void process(String hello){

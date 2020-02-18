@@ -2,12 +2,12 @@ package com.mycom.ssmdemo.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,10 +43,30 @@ public class RabbitMqUtils {
     public Queue userQueue(){
         return new Queue("user");
     }
+    /*
+           以下是direct类型exchange用到的东西
+           一个queue
+           一个exchange
+           一个绑定关系
+     */
     @Bean
     public Queue dirQueue(){
         return new Queue("direct");
     }
+    @Bean
+    public DirectExchange directExchange(){
+        return new DirectExchange("directExchange");
+    }
+    /*
+        将队列dirQueue与directExchange交换机绑定，routing_key为direct
+     */
+    @Bean
+    public Binding bindingExchangeDirect(@Qualifier("dirQueue") Queue dirQueue, DirectExchange directExchange){
+        return BindingBuilder.bind(dirQueue).to(directExchange).with("direct");
+    }
+    /*
+            以上是direct类型的exchange配置
+     */
     @Bean
     public RabbitTemplate rabbitTemplate(){
         //若使用confirm-callback或return-callback，必须要配置publisherConfirms或publisherReturns为true

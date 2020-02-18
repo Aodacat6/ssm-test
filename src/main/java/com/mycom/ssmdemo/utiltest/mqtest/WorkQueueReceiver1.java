@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
  * @version: $
  */
 @Component
-@RabbitListener(queues = RabbitMqUtils.queueName)
+//@RabbitListener(queues = RabbitMqUtils.queueName)
 public class WorkQueueReceiver1 {
 
-    @RabbitHandler
+    //@RabbitHandler
     public void process(String hello){
         System.out.println("Receive1:" + hello);
     }
