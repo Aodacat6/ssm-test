@@ -72,6 +72,10 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.61</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 	</dependencies>
 
 	<!-- 这是maven的profile配置文件切换处，搭配springboot自身的profile切换机制，

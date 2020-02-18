@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mycom.ssmdemo.mapper.org.OrgVipInfoMapper" >
+    <!--
+    <resultMap id="BaseResultMap" type="org.spring.web.entity.User" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="age" property="age" jdbcType="INTEGER" />
+        <result column="passWord" property="passWord" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, user_name,age, passWord
+    </sql>
+-->
+    <!-- 这里是定义了一个 一对多（一个pojo对多张表） 的映射关系
+       resultMap是高级映射关系，可以映射字段名称什么的
+       resultMap相当于是定义了一种返回值类型，去和pojo的类型匹配
+       因为pojo中如果一对多的list，只能用resultmap的collection表示-->
+    <resultMap id="OrgVipInfoResultMap" type="com.mycom.ssmdemo.entity.org.OrgVipInfo" >
+        <result column="orgcode" property="orgCode"/>
+        <result column="orgname" property="orgName"/>
+        <collection property="vipInfoList" ofType="com.mycom.ssmdemo.entity.vip.VipInfo">
+            <result column="name" property="name"/>
+        </collection>
+    </resultMap>
+        <select id="getOrgVipInfoByOrgCode" resultMap="OrgVipInfoResultMap">
+        select h.orgcode,h.orgname,b.name
+         from torginfo h
+        LEFT JOIN tisuvipinfo b
+         on h.orgcode = b.orgcode
+         where h.orgcode = #{orgCode}
+    </select>
+
+    <!--
+    <update id="updateUser" parameterType="org.spring.web.entity.User" >
+        UPDATE
+        user
+        SET
+        <if test="age != null and age!=''">age = #{age},</if>
+        <if test="passWord != null and passWord!=''">passWord = #{passWord},</if>
+        user_name = #{userName}
+        WHERE
+        id = #{id}
+    </update>
+-->
+</mapper>
