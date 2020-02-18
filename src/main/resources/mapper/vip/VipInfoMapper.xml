@@ -13,6 +13,7 @@
         id, user_name,age, passWord
     </sql>
 -->
+
     <!-- 查询用户 -->
     <select id="queryById" parameterType="map" resultType="com.mycom.ssmdemo.entity.vip.VipInfo">
         select  *  from tisuvipinfo where id = #{id}

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@EnableScheduling       // 开启基于注解的定时任务
+//@EnableScheduling       // 开启基于注解的定时任务
 @MapperScan({"com.mycom.ssmdemo.mapper"})
 @SpringBootApplication
 public class SsmdemoApplication {

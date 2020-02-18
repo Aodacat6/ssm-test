@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @modified By：
  * @version: $
  */
-@RestControllerAdvice
+//@RestControllerAdvice   关闭全局异常处理
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)

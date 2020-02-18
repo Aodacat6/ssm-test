@@ -23,7 +23,7 @@ public class MyInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+        /*
         String requestUri = request.getRequestURI();
         Map<String, String[]> requestParams = request.getParameterMap();
 
@@ -38,6 +38,9 @@ public class MyInterceptor implements HandlerInterceptor {
             return true;
         }
         throw new BizException("token验证失败！");
+
+         */
+        return true;
     }
 
 }
