@@ -21,8 +21,8 @@ public class VipInfoController {
 
     @Autowired
     VipService vipService;
-    @Autowired
-    RedisUtils redisUtils;
+    //@Autowired
+    //RedisUtils redisUtils = new RedisUtils();
     @GetMapping("/test/{msg}")
     public String test(@PathVariable String msg){
         return msg;
@@ -51,14 +51,20 @@ public class VipInfoController {
         vipService.insertVip(params);
         return ResponseData.ok();
     }
-
+    /*
     @GetMapping("/redisinserttest")
     public Boolean redisInsertTest(@RequestParam String key, String value){
-        return redisUtils.set(key,value);
+        return RedisUtils.set(key,value);
     }
 
     @GetMapping("/redisquerytest")
     public String redisQueryTest(@RequestParam String key){
-        return redisUtils.get(key).toString();
+        return RedisUtils.get(key).toString();
+    }
+    */
+    @PostMapping("/register")
+    public ResponseData registerVip(@RequestParam Map<String, Object> params){
+
+        return vipService.vipRegister(params);
     }
 }

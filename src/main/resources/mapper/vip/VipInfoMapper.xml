@@ -13,18 +13,45 @@
         id, user_name,age, passWord
     </sql>
 -->
-
-    <!-- 查询用户 -->
+    <resultMap id="MaxVipCodeResultMap" type="map">
+        <result column="maxvipcode" property="maxVipCode" />
+    </resultMap>
+    <select id="getMaxVipCode" resultMap="MaxVipCodeResultMap">
+        select max(vip_code) as maxvipcode from tisuvipinfo
+    </select>
+    <!-- 查询会员 -->
     <select id="queryById" parameterType="map" resultType="com.mycom.ssmdemo.entity.vip.VipInfo">
         select  *  from tisuvipinfo where id = #{id}
     </select>
-    <insert id="insertVip" parameterType="com.mycom.ssmdemo.entity.vip.VipInfo" >
-         insert into tisuvipinfo(name,sex)
+    <insert id="insertVip" parameterType="map" >
+         insert into tisuvipinfo(name,sex,orgcode,orgname,usercode,username,vipBirthday,province,city,district,
+         mobile,password,vipSource,vip_code)
            values(
                 #{name},
-                #{sex}
+                #{sex},
+                #{orgCode},
+                #{orgName},
+                #{userCode},
+                #{userName},
+                #{vipBirthday},
+                #{province},
+                #{city},
+                #{district},
+                #{mobile},
+                #{password},
+                #{vipSource},
+                #{vipCode}
            )
     </insert>
+    <select id="queryVipByMobile" parameterType="map" resultType="com.mycom.ssmdemo.entity.vip.VipInfo">
+        select name from tisuvipinfo
+        <where>
+            <if test="mobile != null and mobile != ''">
+                 mobile = #{mobile}
+            </if>
+        </where>
+        limit 1
+    </select>
     <!--
     <update id="updateUser" parameterType="org.spring.web.entity.User" >
         UPDATE

@@ -76,7 +76,25 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
-	</dependencies>
+		<!--导入阿里短信平台依赖 -->
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-core</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+        <!--读取自定义配置 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+    </dependencies>
 
 	<!-- 这是maven的profile配置文件切换处，搭配springboot自身的profile切换机制，
 	 实现maven中选择配置并注入springboot-->
@@ -109,6 +127,7 @@
 					<include>application.yml</include>
 					<include>application-${profileActive}.yml</include>
 					<include>mapper/**/*.xml</include>
+					<include>log4j.properties</include>
 				</includes>
 			</resource>
 		</resources>

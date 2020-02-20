@@ -27,17 +27,20 @@ public class ResponseData {
         this.msg = msg;
     }
 
+    public static ResponseData okData(String key, Object value){
+
+        ResponseData data = new ResponseData(0,"ok");
+        data.putData(key, value);
+        return data;
+    }
     public static ResponseData ok(){
-        return new ResponseData(0,"ok");
+        return new ResponseData(0, "ok");
     }
     public static ResponseData error(){
         return new ResponseData(1,"error");
     }
-
-    public static ResponseData okData(String key, Object value){
-        ResponseData responseData = new ResponseData(0,"ok");
-        responseData.putData(key, value);
-        return responseData;
+    public static ResponseData error(String msg){
+        return new ResponseData(1, msg);
     }
 
     public int getCode() {

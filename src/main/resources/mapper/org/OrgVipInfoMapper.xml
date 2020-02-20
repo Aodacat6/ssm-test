@@ -24,14 +24,16 @@
             <result column="name" property="name"/>
         </collection>
     </resultMap>
-        <select id="getOrgVipInfoByOrgCode" resultMap="OrgVipInfoResultMap">
+    <select id="getOrgVipInfoByOrgCode" resultMap="OrgVipInfoResultMap">
         select h.orgcode,h.orgname,b.name
          from torginfo h
         LEFT JOIN tisuvipinfo b
          on h.orgcode = b.orgcode
          where h.orgcode = #{orgCode}
     </select>
-
+    <select id="getOrgInfoByOrgCode" parameterType="string" resultType="com.mycom.ssmdemo.entity.org.OrgInfo">
+        select * from torginfo where orgcode = #{orgCode}
+    </select>
     <!--
     <update id="updateUser" parameterType="org.spring.web.entity.User" >
         UPDATE

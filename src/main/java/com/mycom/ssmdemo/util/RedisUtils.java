@@ -1,6 +1,8 @@
 package com.mycom.ssmdemo.util;
 
 import com.mycom.ssmdemo.common.configuration.RedisConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -17,12 +19,24 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtils {
 
+    protected static Logger logger = LoggerFactory.getLogger(RedisUtils.class);
+    /*
+    private RedisUtils(){
+
+    }
+   */
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     public boolean set(String key, Object value){
-        redisTemplate.opsForValue().set(key,value);
-        return setExpire(key,10);
+        boolean b = false;
+        try {
+            redisTemplate.opsForValue().set(key,value);
+            b = true;
+        }catch (Exception e){
+            logger.info(e.getMessage());
+        }
+        return b;
     }
 
     public Object get(String key){
@@ -34,5 +48,16 @@ public class RedisUtils {
             redisTemplate.expire(key, time, TimeUnit.SECONDS);
         }
         return true;
+    }
+
+    public boolean hasKey(String key){
+        boolean hasKey = false;
+        if (redisTemplate != null){
+            try {
+                hasKey = redisTemplate.hasKey(key);
+            }catch (Exception e){
+            }
+        }
+        return hasKey;
     }
 }

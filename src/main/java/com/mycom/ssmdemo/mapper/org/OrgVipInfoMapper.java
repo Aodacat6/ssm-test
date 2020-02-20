@@ -1,5 +1,6 @@
 package com.mycom.ssmdemo.mapper.org;
 
+import com.mycom.ssmdemo.entity.org.OrgInfo;
 import com.mycom.ssmdemo.entity.org.OrgVipInfo;
 
 /**
@@ -11,5 +12,5 @@ import com.mycom.ssmdemo.entity.org.OrgVipInfo;
  */
 public interface OrgVipInfoMapper {
     OrgVipInfo getOrgVipInfoByOrgCode(String orgCode);
-
+    OrgInfo getOrgInfoByOrgCode(String orgCode);
 }

@@ -33,6 +33,10 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-
-
+ali:
+  sms:
+    accessKeyId: LTAI4FrVwCKTLrTB6ix9tqsS
+    accessSecret: rJD7cUT97SwV9PcyiqJ5oRMV4BvzxQ
+    signName: 大喵社区
+    templateCode: SMS_173476438
 

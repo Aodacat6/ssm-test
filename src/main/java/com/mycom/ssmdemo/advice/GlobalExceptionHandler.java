@@ -15,13 +15,15 @@ import javax.servlet.http.HttpServletRequest;
  * @modified By：
  * @version: $
  */
-//@RestControllerAdvice   关闭全局异常处理
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public JSONObject exceptionHandler(HttpServletRequest request, Exception e) {
-        String jsonStr = JSONObject.toJSONString(ResponseData.error());
+
+
+        String jsonStr = JSONObject.toJSONString(ResponseData.error(e.getMessage()));
         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
         return jsonObject;
     }

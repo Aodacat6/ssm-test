@@ -1,5 +1,6 @@
 package com.mycom.ssmdemo.service.org.impl;
 
+import com.mycom.ssmdemo.entity.org.OrgInfo;
 import com.mycom.ssmdemo.entity.org.OrgVipInfo;
 import com.mycom.ssmdemo.mapper.org.OrgVipInfoMapper;
 import com.mycom.ssmdemo.service.org.OrgVipInfoService;
@@ -29,5 +30,10 @@ public class OrgVipInfoImpl implements OrgVipInfoService {
         OrgVipInfo orgVipInfo = new OrgVipInfo();
         orgVipInfo = orgVipInfoMapper.getOrgVipInfoByOrgCode(orgCode);
         return orgVipInfo;
+    }
+
+    @Override
+    public OrgInfo getOrgInfoByOrgCode(String orgCode) {
+        return orgVipInfoMapper.getOrgInfoByOrgCode(orgCode);
     }
 }
