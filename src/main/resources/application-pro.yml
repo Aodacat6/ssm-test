@@ -38,5 +38,6 @@ ali:
     accessKeyId: LTAI4FrVwCKTLrTB6ix9tqsS
     accessSecret: rJD7cUT97SwV9PcyiqJ5oRMV4BvzxQ
     signName: 大喵社区
-    templateCode: SMS_173476438
+    templateCode_CheckCode: SMS_173476438
+    templateCode_FK: SMS_173476685
 
