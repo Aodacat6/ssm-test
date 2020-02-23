@@ -65,7 +65,7 @@ public class AliSms {
         //请求失败这里会抛ClientException异常
         SendSmsResponse response = acsClient.getAcsResponse(request);
         logger.info("AliSmsResponse:" + response.toString());
-        if (!"ok".equals(response.getCode())){
+        if (!"OK".equals(response.getCode())){
             return 1;
         }
         return 0;

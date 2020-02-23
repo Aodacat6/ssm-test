@@ -5,11 +5,12 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.mycom.ssmdemo.common.commexception.BizException;
 import com.mycom.ssmdemo.common.configuration.AliSmsConfiguration;
+import com.mycom.ssmdemo.common.message.ResponseData;
 import com.mycom.ssmdemo.thridPlugin.AliSms;
+import com.mycom.ssmdemo.util.FileUpandDown;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author ：damiaokuaipao
@@ -24,6 +25,8 @@ public class TestController {
 
     @Autowired
     private AliSms aliSms;
+    @Autowired
+    private FileUpandDown fileUpandDown;
 
     @GetMapping("/msg")
     public int sendMsg(){
@@ -42,4 +45,12 @@ public class TestController {
        // System.out.println(response);
         return 0;
     }
+
+    @PostMapping("/fileup")
+    public ResponseData fileUp(@RequestParam("vipCode") String vipCode, @RequestParam("file") MultipartFile multipartFile){
+
+        String vipCode1 = vipCode;
+        return fileUpandDown.fileUpload(multipartFile);
+    }
+
 }

@@ -60,4 +60,22 @@ public class RedisUtils {
         }
         return hasKey;
     }
+
+    /**
+     * 设置有过期时间的key
+     * @param key
+     * @param value
+     * @return
+     */
+    public boolean setandExpire(String key, Object value, long time){
+        boolean b = false;
+        try {
+            redisTemplate.opsForValue().set(key,value);
+            b = setExpire(key, time);
+        }catch (Exception e){
+            logger.info(e.getMessage());
+        }
+        return b;
+    }
+
 }

@@ -22,4 +22,6 @@ public interface VipService {
 
     String getMaxVipCodeBiz();
 
+    ResponseData getCheckCode(Map<String, Object> params);
+
 }

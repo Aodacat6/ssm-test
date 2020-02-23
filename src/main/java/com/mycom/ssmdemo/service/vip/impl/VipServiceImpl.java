@@ -1,5 +1,7 @@
 package com.mycom.ssmdemo.service.vip.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.aliyuncs.exceptions.ClientException;
 import com.mycom.ssmdemo.common.commexception.BizException;
 import com.mycom.ssmdemo.common.commonutil.CommonUtils;
 import com.mycom.ssmdemo.common.commonutil.DateUtils;
@@ -15,6 +17,7 @@ import com.mycom.ssmdemo.mapper.vip.VipRegInfoMapper;
 import com.mycom.ssmdemo.service.org.OrgVipInfoService;
 import com.mycom.ssmdemo.service.user.UserService;
 import com.mycom.ssmdemo.service.vip.VipService;
+import com.mycom.ssmdemo.thridPlugin.AliSms;
 import com.mycom.ssmdemo.util.RedisUtils;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,8 @@ public class VipServiceImpl implements VipService {
     private OrgVipInfoService orgVipInfoService;
     @Autowired
     private RedisUtils redisUtils;
+    @Autowired
+    private AliSms aliSms;
 
     /**
      * 会员注册入口
@@ -240,6 +245,41 @@ public class VipServiceImpl implements VipService {
         //随机生成一个4位数
         String random = new Random().nextInt(8999) + 1000 + "";
         return Long.valueOf(vipCode).toString() + random;
+    }
+
+    @Override
+    public ResponseData getCheckCode(Map<String, Object> params) {
+
+        String mobile = params.getOrDefault("mobile", "").toString();
+        if (StringUtils.isNullOrEmpty(mobile)){
+            throw new BizException("传入的手机号不能为空！");
+        }
+        if (!CommonUtils.isMobile(mobile)){
+            throw new BizException("传入的手机号不符合规则！");
+        }
+        String key = "mo" + mobile;
+        if (redisUtils.hasKey(key)){
+            throw new BizException("短信发送太频繁，请稍后再试！");
+        }
+        String checkCode = CommonUtils.randomNum();
+        long expireTime = 300L;  //300秒
+        if (!redisUtils.setandExpire(key, checkCode, expireTime)){
+            throw new BizException("验证码设置失败！");
+        }
+        String sendType = "0";
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("CheckCode", checkCode);
+        int result = 1;
+        try {
+            result = aliSms.sendMsg(mobile, sendType, jsonObject);
+        } catch (ClientException e) {
+            e.printStackTrace();
+        }
+        if (result != 0){
+            throw new BizException("短信发送异常！");
+        }
+
+        return ResponseData.okData("checkCode", checkCode);
     }
 
 }

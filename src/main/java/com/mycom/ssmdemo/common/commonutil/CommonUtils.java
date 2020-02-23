@@ -1,5 +1,6 @@
 package com.mycom.ssmdemo.common.commonutil;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +35,40 @@ public class CommonUtils {
         boolean b = matcher.matches();
         return b;
     }
+
+    /**
+     * 生成6位随机数
+     * @return
+     */
+    public static String randomNum(){
+        return new Random().nextInt(899999) + 100000 + "";
+    }
+
+    /**
+     * 判断文件大小
+     * len：文件实际长度（字节B）
+     * size：规定的文件大小
+     * unit：规定的文件大小单位
+     * @return
+     */
+    public static boolean checkFileSize(long len, int size, String unit){
+        double fileSize = 0;
+        if ("B".equals(unit.toUpperCase())){
+            fileSize = (double) len;
+        }else if ("K".equals(unit.toUpperCase())){
+            fileSize = (double) len / 1024;
+        }else if ("M".equals(unit.toUpperCase())){
+            fileSize = (double) len / (1024 * 1024);
+        }else if ("G".equals(unit.toUpperCase())){
+            fileSize = (double) len / (1024 * 1024 * 1024);
+        }
+
+        if (fileSize > size){
+            return false;
+        }
+        return true;
+    }
+
 
 
 }

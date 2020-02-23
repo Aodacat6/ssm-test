@@ -4,6 +4,8 @@ package com.mycom.ssmdemo.common.commonutil;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -27,5 +29,22 @@ class CommonUtilsTest {
         CommonUtils commonUtils = new CommonUtils();
         boolean b = commonUtils.isMobile("17660635488");
         assertEquals(true, b);
+    }
+
+    @Test
+    void randomNum() {
+        CommonUtils commonUtils = new CommonUtils();
+
+        System.out.println(commonUtils.randomNum());
+    }
+
+    @Test
+    void checkFileSize() {
+        CommonUtils commonUtils = new CommonUtils();
+
+        File file = new File("C:\\Users\\admin\\Desktop\\Server v0.0.5 .zip");
+
+        boolean b = commonUtils.checkFileSize(file.length(), 5, "M");
+        assertEquals(false, b);
     }
 }

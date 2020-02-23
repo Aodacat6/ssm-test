@@ -128,6 +128,7 @@
 					<include>application-${profileActive}.yml</include>
 					<include>mapper/**/*.xml</include>
 					<include>log4j.properties</include>
+					<include>static/*.html</include>
 				</includes>
 			</resource>
 		</resources>

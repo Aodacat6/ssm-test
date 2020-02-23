@@ -67,4 +67,8 @@ public class VipInfoController {
 
         return vipService.vipRegister(params);
     }
+    @PostMapping("/getcode")
+    public ResponseData getCheckCode(@RequestParam Map<String, Object> map){
+        return vipService.getCheckCode(map);
+    }
 }
