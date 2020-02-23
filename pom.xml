@@ -93,6 +93,17 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+		<!--devtools热部署-->
+		<!--热部署，即运行状态下，修改源码后保存，程序会自动重启，减少手工重启时间-->
+		<!--1、添加依赖-->
+        <!--2、配置文件增加启动项-->
+        <!--3、idea设置自动编译-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+			<scope>true</scope>
+		</dependency>
 
     </dependencies>
 

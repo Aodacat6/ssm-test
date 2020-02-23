@@ -11,8 +11,10 @@ import com.mycom.ssmdemo.common.message.ResponseData;
 import com.mycom.ssmdemo.entity.org.OrgInfo;
 import com.mycom.ssmdemo.entity.user.User;
 import com.mycom.ssmdemo.entity.vip.VipInfo;
+import com.mycom.ssmdemo.entity.vip.VipPicture;
 import com.mycom.ssmdemo.entity.vip.VipRegInfo;
 import com.mycom.ssmdemo.mapper.vip.VipInfoMapper;
+import com.mycom.ssmdemo.mapper.vip.VipPictureMapper;
 import com.mycom.ssmdemo.mapper.vip.VipRegInfoMapper;
 import com.mycom.ssmdemo.service.org.OrgVipInfoService;
 import com.mycom.ssmdemo.service.user.UserService;
@@ -24,10 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @author ：damiaokuaipao
@@ -51,6 +50,8 @@ public class VipServiceImpl implements VipService {
     private RedisUtils redisUtils;
     @Autowired
     private AliSms aliSms;
+    @Autowired
+    private VipPictureMapper vipPictureMapper;
 
     /**
      * 会员注册入口
@@ -280,6 +281,40 @@ public class VipServiceImpl implements VipService {
         }
 
         return ResponseData.okData("checkCode", checkCode);
+    }
+
+    @Override
+    public CommResult addPicture(Map<String, Object> params) {
+
+        return null;
+    }
+
+    @Override
+    public CommResult deletePic(Map<String, Object> params) {
+        return null;
+    }
+
+    @Override
+    public CommResult editPic(Map<String, Object> params) {
+        return null;
+    }
+
+    @Override
+    public List<VipPicture> viewPic(Map<String, Object> params) {
+        String vipCode = params.getOrDefault("vipCode", "").toString();
+        if (StringUtils.isNullOrEmpty(vipCode)){
+            throw new BizException("输入的会员号不能为空！");
+        }
+        List<VipPicture> list = vipPictureMapper.viewPic(params);
+        if (list == null){
+            throw new BizException("查询图片出错！");
+        }
+        for(VipPicture vipPicture: list){
+            String fileDir = vipPicture.getFileDir();
+            String fileName = vipPicture.getFileName();
+
+        }
+        return list;
     }
 
 }

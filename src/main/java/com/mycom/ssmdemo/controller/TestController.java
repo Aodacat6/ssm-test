@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
  * @author ：damiaokuaipao
  * @date ：Created in 2020-02-20 下午 10:59
@@ -27,6 +30,8 @@ public class TestController {
     private AliSms aliSms;
     @Autowired
     private FileUpandDown fileUpandDown;
+
+    //private
 
     @GetMapping("/msg")
     public int sendMsg(){
@@ -51,6 +56,11 @@ public class TestController {
 
         String vipCode1 = vipCode;
         return fileUpandDown.fileUpload(multipartFile);
+    }
+    @PostMapping("/filedown")
+    public void fileDown(@RequestParam("vipCode") String vipCode, HttpServletResponse response) throws IOException {
+
+        fileUpandDown.fileDown("我爱你.txt", response);
     }
 
 }

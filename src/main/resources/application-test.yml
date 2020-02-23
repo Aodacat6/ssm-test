@@ -21,6 +21,10 @@ spring:
         max-idle: 0
         timeout: 3000
 
+  devtools:
+    restart:
+      enabled: true
+
 mybatis:
   mapper-locations: classpath*:mapper/**/*Mapper.xml
   configuration:

@@ -3,7 +3,9 @@ package com.mycom.ssmdemo.service.vip;
 import com.mycom.ssmdemo.common.message.CommResult;
 import com.mycom.ssmdemo.common.message.ResponseData;
 import com.mycom.ssmdemo.entity.vip.VipInfo;
+import com.mycom.ssmdemo.entity.vip.VipPicture;
 
+import java.util.List;
 import java.util.Map;
 
 public interface VipService {
@@ -23,5 +25,13 @@ public interface VipService {
     String getMaxVipCodeBiz();
 
     ResponseData getCheckCode(Map<String, Object> params);
+
+    CommResult addPicture(Map<String, Object> params);
+
+    CommResult deletePic(Map<String, Object> params);
+
+    CommResult editPic(Map<String, Object> params);
+
+    List<VipPicture> viewPic(Map<String, Object> params);
 
 }
