@@ -8,7 +8,7 @@
 <h2>文件上传实例</h2>
 
 
-<form action="test/fileup" method="post" enctype="multipart/form-data">
+<form id="form1" action="/test/fileup" method="post" enctype="multipart/form-data">
     选择文件:<input type="file" name="file"><br>
     vipCode:<input type="text" name="vipCode"><br>
     <input type="submit" value="提交">
@@ -16,11 +16,25 @@
 <br>
 <br>
 <br>
-<form action="/test/filedown" method="post" enctype="application/x-www-form-urlencoded">
+<form id="form2" action="/test/filedown" method="post" enctype="application/x-www-form-urlencoded">
     vipCode:<input type="text" name="vipCode"><br>
     <input type="submit" value="获取">
 </form>
-
+<br>
+<br>
+<br>
+<form id="form3" action="/test/fileupdate" method="post" enctype="multipart/form-data">
+    选择文件:<input type="file" name="file"><br>
+    vipCode:<input type="text" name="vipCode"><br>
+    <input type="submit" value="更新">
+</form>
+<br>
+<br>
+<br>
+<form id="form4" action="/test/filedelete" method="post" enctype="application/x-www-form-urlencoded">
+    vipCode:<input type="text" name="vipCode"><br>
+    <input type="submit" value="删除">
+</form>
 
 </body>
 </html>

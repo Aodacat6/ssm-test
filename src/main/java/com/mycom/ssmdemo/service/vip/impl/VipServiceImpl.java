@@ -23,12 +23,14 @@ import com.mycom.ssmdemo.thridPlugin.AliSms;
 import com.mycom.ssmdemo.util.FileUpandDown;
 import com.mycom.ssmdemo.util.RedisUtils;
 import com.mysql.cj.util.StringUtils;
+import jdk.jfr.events.ErrorThrownEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -64,7 +66,7 @@ public class VipServiceImpl implements VipService {
      * @param params
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseData vipRegister(Map<String, Object> params) {
 
@@ -289,8 +291,10 @@ public class VipServiceImpl implements VipService {
         return ResponseData.okData("checkCode", checkCode);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public ResponseData addPicture(String vipCode, MultipartFile multipartFile) {
+
         if(StringUtils.isNullOrEmpty(vipCode)){
             throw new BizException("传入的vipCode不能为空！");
         }
@@ -314,14 +318,53 @@ public class VipServiceImpl implements VipService {
         return ResponseData.ok();
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public CommResult deletePic(Map<String, Object> params) {
         return null;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public CommResult editPic(Map<String, Object> params) {
-        return null;
+    public ResponseData editPic(String vipCode, MultipartFile multipartFile) {
+
+        if(StringUtils.isNullOrEmpty(vipCode)){
+            throw new BizException("传入的vipCode不能为空！");
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("vipCode", vipCode);
+        List<VipPicture> list = vipPictureMapper.viewPic(map);
+        if (list == null){
+            throw new BizException("查询图片出错，原文件可能不存在！");
+        }
+
+        CommResult commResult = fileUpandDown.fileUpload(multipartFile);
+        if (commResult.getCode() != 0){
+            throw new BizException("文件保存失败！");
+        }
+
+        String fileDir =  list.get(0).getFileDir();
+        String fileName = list.get(0).getFileName();
+        //更新先删除原文件
+        String filePath = fileDir;
+        File file = new File(fileDir);
+        if (file.exists()){
+            file.delete();
+        }
+        Map<String, Object> map1 = (Map<String, Object>) commResult.getData();
+        fileName = map1.get("fileName").toString();
+        fileDir = map1.get("fileDir").toString();
+
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("vipCode", vipCode);
+        map2.put("fileName", fileName);
+        map2.put("fileDir", fileDir);
+
+        int result = vipPictureMapper.editPic(map2);
+        if (result != 1){
+            throw new BizException("文件信息保存到数据库失败！");
+        }
+        return ResponseData.ok();
     }
 
     @Override

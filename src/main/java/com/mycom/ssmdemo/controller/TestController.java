@@ -62,13 +62,16 @@ public class TestController {
     @PostMapping("/fileup")
     public ResponseData fileUp(@RequestParam("vipCode") String vipCode, @RequestParam("file") MultipartFile multipartFile){
 
-
         return vipService.addPicture(vipCode, multipartFile);
     }
     @PostMapping("/filedown")
     public void fileDown(@RequestParam("vipCode") String vipCode, HttpServletResponse response) throws IOException {
         vipService.viewPic(vipCode, response);
         //fileUpandDown.fileDown("我爱你.txt", response);
+    }
+    @PostMapping("/fileupdate")
+    public ResponseData fileUpdate(@RequestParam("vipCode") String vipCode, @RequestParam("file") MultipartFile multipartFile){
+        return vipService.editPic(vipCode, multipartFile);
     }
 
 }

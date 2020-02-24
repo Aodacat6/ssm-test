@@ -33,7 +33,7 @@ public interface VipService {
 
     CommResult deletePic(Map<String, Object> params);
 
-    CommResult editPic(Map<String, Object> params);
+    ResponseData editPic(String vipCode, MultipartFile multipartFile);
 
     void viewPic(String vipCode, HttpServletResponse response) throws IOException;
 
