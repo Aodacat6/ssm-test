@@ -5,15 +5,21 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.mycom.ssmdemo.common.commexception.BizException;
 import com.mycom.ssmdemo.common.configuration.AliSmsConfiguration;
+import com.mycom.ssmdemo.common.message.CommResult;
 import com.mycom.ssmdemo.common.message.ResponseData;
+import com.mycom.ssmdemo.entity.vip.VipPicture;
+import com.mycom.ssmdemo.service.vip.VipService;
 import com.mycom.ssmdemo.thridPlugin.AliSms;
 import com.mycom.ssmdemo.util.FileUpandDown;
+import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author ：damiaokuaipao
@@ -30,6 +36,8 @@ public class TestController {
     private AliSms aliSms;
     @Autowired
     private FileUpandDown fileUpandDown;
+    @Autowired
+    private VipService vipService;
 
     //private
 
@@ -54,13 +62,13 @@ public class TestController {
     @PostMapping("/fileup")
     public ResponseData fileUp(@RequestParam("vipCode") String vipCode, @RequestParam("file") MultipartFile multipartFile){
 
-        String vipCode1 = vipCode;
-        return fileUpandDown.fileUpload(multipartFile);
+
+        return vipService.addPicture(vipCode, multipartFile);
     }
     @PostMapping("/filedown")
     public void fileDown(@RequestParam("vipCode") String vipCode, HttpServletResponse response) throws IOException {
-
-        fileUpandDown.fileDown("我爱你.txt", response);
+        vipService.viewPic(vipCode, response);
+        //fileUpandDown.fileDown("我爱你.txt", response);
     }
 
 }

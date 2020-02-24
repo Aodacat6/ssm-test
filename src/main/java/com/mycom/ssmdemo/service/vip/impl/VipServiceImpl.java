@@ -20,12 +20,16 @@ import com.mycom.ssmdemo.service.org.OrgVipInfoService;
 import com.mycom.ssmdemo.service.user.UserService;
 import com.mycom.ssmdemo.service.vip.VipService;
 import com.mycom.ssmdemo.thridPlugin.AliSms;
+import com.mycom.ssmdemo.util.FileUpandDown;
 import com.mycom.ssmdemo.util.RedisUtils;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -52,6 +56,8 @@ public class VipServiceImpl implements VipService {
     private AliSms aliSms;
     @Autowired
     private VipPictureMapper vipPictureMapper;
+    @Autowired
+    private FileUpandDown fileUpandDown;
 
     /**
      * 会员注册入口
@@ -284,9 +290,28 @@ public class VipServiceImpl implements VipService {
     }
 
     @Override
-    public CommResult addPicture(Map<String, Object> params) {
+    public ResponseData addPicture(String vipCode, MultipartFile multipartFile) {
+        if(StringUtils.isNullOrEmpty(vipCode)){
+            throw new BizException("传入的vipCode不能为空！");
+        }
+        CommResult commResult = fileUpandDown.fileUpload(multipartFile);
+        if (commResult.getCode() != 0){
+            throw new BizException("文件保存失败！");
+        }
+        Map<String, Object> map = (Map<String, Object>) commResult.getData();
+        String fileName = map.get("fileName").toString();
+        String fileDir = map.get("fileDir").toString();
 
-        return null;
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("vipCode", vipCode);
+        map1.put("fileName", fileName);
+        map1.put("fileDir", fileDir);
+
+        int result = vipPictureMapper.addPicture(map1);
+        if (result != 1){
+            throw new BizException("文件信息保存到数据库失败！");
+        }
+        return ResponseData.ok();
     }
 
     @Override
@@ -300,21 +325,28 @@ public class VipServiceImpl implements VipService {
     }
 
     @Override
-    public List<VipPicture> viewPic(Map<String, Object> params) {
-        String vipCode = params.getOrDefault("vipCode", "").toString();
+    public void viewPic(String vipCode, HttpServletResponse response) throws IOException {
+        //String vipCode = params.getOrDefault("vipCode", "").toString();
         if (StringUtils.isNullOrEmpty(vipCode)){
             throw new BizException("输入的会员号不能为空！");
         }
-        List<VipPicture> list = vipPictureMapper.viewPic(params);
+        Map<String, Object> map = new HashMap<>();
+        map.put("vipCode", vipCode);
+        List<VipPicture> list = vipPictureMapper.viewPic(map);
         if (list == null){
             throw new BizException("查询图片出错！");
         }
+        String fileDir = "";
+        String fileName = "";
+        //原来考虑的比较多，比如一个会员可能有多个文件
+        //回来懒得做了，只要一个文件吧，所以才有如下写法
         for(VipPicture vipPicture: list){
-            String fileDir = vipPicture.getFileDir();
-            String fileName = vipPicture.getFileName();
+            fileDir = vipPicture.getFileDir();
+            fileName = vipPicture.getFileName();
 
         }
-        return list;
+        fileUpandDown.fileDown(fileName, response);
+        //return ResponseData.ok();
     }
 
 }

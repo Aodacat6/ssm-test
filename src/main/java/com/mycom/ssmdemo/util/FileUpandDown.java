@@ -2,6 +2,7 @@ package com.mycom.ssmdemo.util;
 
 import com.mycom.ssmdemo.common.commexception.BizException;
 import com.mycom.ssmdemo.common.commonutil.CommonUtils;
+import com.mycom.ssmdemo.common.message.CommResult;
 import com.mycom.ssmdemo.common.message.ResponseData;
 import com.mycom.ssmdemo.constants.MyConstants;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,8 @@ import javax.naming.Name;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author ：damiaokuaipao
@@ -27,7 +30,7 @@ public class FileUpandDown {
      * @param file
      * @return
      */
-    public ResponseData fileUpload(MultipartFile file) {
+    public CommResult fileUpload(MultipartFile file) {
 
         if (file == null || file.isEmpty()) {
             throw new BizException("未选择要上传的文件，请重新选择！");
@@ -68,8 +71,10 @@ public class FileUpandDown {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return ResponseData.okData("path", fileUpload.getAbsolutePath());
+        Map<String, Object> map = new HashMap<>();
+        map.put("fileName", file.getOriginalFilename());
+        map.put("fileDir", fileUpload.getAbsolutePath());
+        return CommResult.ok(map);
     }
 
     /**
@@ -82,9 +87,10 @@ public class FileUpandDown {
             throw new BizException("文件不存在，无法下载！");
         }
 
-        response.setCharacterEncoding("UTF-8");
+        //response.setCharacterEncoding("UTF-8");
         response.setContentType("application/force-download");
-        //URLEncoder.encode(fileName, "UTF-8")解决了文件中为中文无法下载的问题
+        //response.setContentType("image/jpeg");
+        //URLEncoder.encode(fileName, "UTF-8")解决了文件名为中文无法下载的问题
         response.addHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "UTF-8"));
 
         byte[] buffer = new byte[1024];
@@ -96,9 +102,14 @@ public class FileUpandDown {
         OutputStream outputStream = response.getOutputStream();
 
         int i;
-        while ((i = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, i);
-            i = inputStream.read(buffer);
+        try {
+            while ((i = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, i);
+            }
+        } finally {
+            outputStream.flush();
+            outputStream.close();
+            inputStream.close();
         }
 
 

@@ -4,7 +4,10 @@ import com.mycom.ssmdemo.common.message.CommResult;
 import com.mycom.ssmdemo.common.message.ResponseData;
 import com.mycom.ssmdemo.entity.vip.VipInfo;
 import com.mycom.ssmdemo.entity.vip.VipPicture;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -26,12 +29,12 @@ public interface VipService {
 
     ResponseData getCheckCode(Map<String, Object> params);
 
-    CommResult addPicture(Map<String, Object> params);
+    ResponseData addPicture(String vipCode, MultipartFile multipartFile);
 
     CommResult deletePic(Map<String, Object> params);
 
     CommResult editPic(Map<String, Object> params);
 
-    List<VipPicture> viewPic(Map<String, Object> params);
+    void viewPic(String vipCode, HttpServletResponse response) throws IOException;
 
 }
