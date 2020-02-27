@@ -22,8 +22,11 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public JSONObject exceptionHandler(HttpServletRequest request, Exception e) {
 
-
-        String jsonStr = JSONObject.toJSONString(ResponseData.error(e.getMessage()));
+        String errMsg = e.getMessage();
+        if ((errMsg != null) && (errMsg.contains("Exception"))){
+            errMsg = "抱歉，程序出错了";
+        }
+        String jsonStr = JSONObject.toJSONString(ResponseData.error(errMsg));
         JSONObject jsonObject = JSONObject.parseObject(jsonStr);
         return jsonObject;
     }

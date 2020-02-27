@@ -71,16 +71,23 @@
     <select id="getAllVip"  resultType="com.mycom.ssmdemo.entity.vip.VipInfo">
         select name,sex,orgcode,orgname,vipBirthday,password from tisuvipinfo
     </select>
-    <!--
-    <update id="updateUser" parameterType="org.spring.web.entity.User" >
-        UPDATE
-        user
-        SET
-        <if test="age != null and age!=''">age = #{age},</if>
-        <if test="passWord != null and passWord!=''">passWord = #{passWord},</if>
-        user_name = #{userName}
-        WHERE
-        id = #{id}
-    </update>
--->
+
+    <insert id="insertBatchVip" parameterType="java.util.List">
+        insert into tisuvipinfo
+        (
+             name,
+             vip_code
+        )
+        values
+        <!-- foreach循环标签，可以把list转换为对应的sql -->
+        <!-- foreach除了下面的标签，还有一个open和close，用于处理sql的语法，比如in，可以在前后加括号-->
+        <!-- z需要注意的是，加符号是在整个语句块开始结束加，不是每个循环体开始结束，每个循环体要在循环内加-->
+        <!-- separator是每次循环都加的分隔符-->
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+                #{item.name},
+                '5555'
+            )
+        </foreach>
+    </insert>
 </mapper>

@@ -41,4 +41,6 @@ public interface VipService {
 
     ResponseData getAllVip(Map<String, Object> params);
 
+    ResponseData addVipBatch(List<VipInfo> vipInfos);
+
 }

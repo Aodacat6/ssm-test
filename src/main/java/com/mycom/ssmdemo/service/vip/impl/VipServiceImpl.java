@@ -24,7 +24,6 @@ import com.mycom.ssmdemo.thridPlugin.AliSms;
 import com.mycom.ssmdemo.util.FileUpandDown;
 import com.mycom.ssmdemo.util.LoggerUtils;
 import com.mycom.ssmdemo.util.RedisUtils;
-import com.mysql.cj.util.LogUtils;
 import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -479,6 +478,16 @@ public class VipServiceImpl implements VipService {
         LoggerUtils.getLogger().info(pageInfo.toString());
         //根据传入的page信息查询返回对应的会员信息，并返回所有会员总数，和本次页数无关
         return ResponseData.okData(list, pageInfo.getTotal());
+    }
+
+    @Override
+    public ResponseData addVipBatch(List<VipInfo> vipInfos) {
+
+        int result = vipInfoMapper.insertBatchVip(vipInfos);
+        if (result<1){
+            return ResponseData.error("插入数据出错！");
+        }
+        return ResponseData.okData("count", result);
     }
 
 }

@@ -20,4 +20,6 @@ public interface VipInfoMapper {
     Map<String, Object> getMaxVipCode();
 
     VipInfo queryVipByVipCode(Map<String, Object> params);
+
+    int insertBatchVip(List<VipInfo> list);
 }

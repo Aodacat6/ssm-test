@@ -7,6 +7,7 @@ import com.mycom.ssmdemo.common.commexception.BizException;
 import com.mycom.ssmdemo.common.configuration.AliSmsConfiguration;
 import com.mycom.ssmdemo.common.message.CommResult;
 import com.mycom.ssmdemo.common.message.ResponseData;
+import com.mycom.ssmdemo.entity.vip.VipInfo;
 import com.mycom.ssmdemo.entity.vip.VipPicture;
 import com.mycom.ssmdemo.service.vip.VipService;
 import com.mycom.ssmdemo.thridPlugin.AliSms;
@@ -18,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,6 +75,24 @@ public class TestController {
     @PostMapping("/fileupdate")
     public ResponseData fileUpdate(@RequestParam("vipCode") String vipCode, @RequestParam("file") MultipartFile multipartFile){
         return vipService.editPic(vipCode, multipartFile);
+    }
+    @GetMapping("/addvipbatch")
+    public ResponseData addVipBatch(){
+
+        List<VipInfo> list = new ArrayList<>();
+        VipInfo ming = new VipInfo();
+        ming.setName("小明");
+        list.add(ming);
+
+        VipInfo tian = new VipInfo();
+        tian.setName("小天");
+        list.add(tian);
+
+        VipInfo rookie = new VipInfo();
+        rookie.setName("rookie");
+        list.add(rookie);
+
+        return vipService.addVipBatch(list);
     }
 
 }
