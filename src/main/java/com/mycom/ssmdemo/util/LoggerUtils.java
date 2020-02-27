@@ -1,8 +1,8 @@
 package com.mycom.ssmdemo.util;
 
-//import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author ：damiaokuaipao
@@ -18,7 +18,7 @@ public class LoggerUtils {
 
     public static Logger getLogger(){
         if (logger == null){
-            logger = Logger.getLogger("SsmdemoApplication");
+            logger = LoggerFactory.getLogger(LoggerUtils.class);
         }
         return logger;
     }

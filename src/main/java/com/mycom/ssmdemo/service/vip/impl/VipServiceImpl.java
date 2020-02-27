@@ -392,4 +392,61 @@ public class VipServiceImpl implements VipService {
         //return ResponseData.ok();
     }
 
+    @Override
+    public ResponseData verifyVip(Map<String, Object> params) {
+
+        String cardNo = params.getOrDefault("cardNo", "").toString();
+        String password = params.getOrDefault("password", "").toString();
+        String checkCode = params.getOrDefault("checkCode", "").toString();
+        if (StringUtils.isNullOrEmpty(cardNo)){
+            throw new BizException("传入的会员号不能为空！");
+        }
+        boolean isMobileNo = CommonUtils.isMobile(cardNo);
+
+        if (StringUtils.isNullOrEmpty(password) && StringUtils.isNullOrEmpty(checkCode)){
+            throw new BizException("密码和校验码不能同时为空！");
+        }
+        if (!isMobileNo && (StringUtils.isNullOrEmpty(password))){
+            throw new BizException("会员号验证时，必须输密码！");
+        }
+        //业务查询，手机号可以用密码和校验码，会员码只能用密码
+        VipInfo vipInfo = null;
+        Map<String, Object> map = new HashMap<>();
+        if (isMobileNo){
+            map.put("mobile", cardNo);
+            //map.put("password", password);
+            if (!StringUtils.isNullOrEmpty(password)){
+                //vipInfo = vipInfoMapper.queryVipByMobile(map);
+            }else {
+                //reids中查询验证码
+                String key = "mo" + cardNo;
+                String curCheckCode = redisUtils.get(key).toString();
+                if (!checkCode.equals(curCheckCode)){
+                    throw new BizException("验证码不正确！");
+                }
+            }
+            vipInfo = vipInfoMapper.queryVipByMobile(map);
+        }else {
+            map.put("vipCode", cardNo);
+            //map.put("password", password);
+            vipInfo = vipInfoMapper.queryVipByVipCode(map);
+        }
+
+        if (vipInfo == null){
+            throw new BizException("没有找到会员信息！");
+        }
+        String curPassword = null;
+        try {
+            curPassword = EntryUtils.decrypt(vipInfo.getPassword());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BizException("解密失败！");
+        }
+
+        if (!StringUtils.isNullOrEmpty(password) && !(Objects.equals(password, curPassword))){
+            throw new BizException("密码输入错误！");
+        }
+        return ResponseData.okData("vipInfo", vipInfo);
+    }
+
 }

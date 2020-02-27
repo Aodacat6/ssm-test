@@ -44,10 +44,25 @@
            )
     </insert>
     <select id="queryVipByMobile" parameterType="map" resultType="com.mycom.ssmdemo.entity.vip.VipInfo">
-        select name from tisuvipinfo
+        select name, password from tisuvipinfo
         <where>
             <if test="mobile != null and mobile != ''">
                  mobile = #{mobile}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+        </where>
+        limit 1
+    </select>
+    <select id="queryVipByVipCode" parameterType="map" resultType="com.mycom.ssmdemo.entity.vip.VipInfo">
+        select name,sex,orgcode,orgname,vipBirthday,password from tisuvipinfo
+        <where>
+            <if test="vipCode != null and vipCode != ''">
+                and vip_Code = #{vipCode}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
             </if>
         </where>
         limit 1

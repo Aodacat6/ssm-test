@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/himoni?useUnicode=true&characterEncoding=utf-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: secret
@@ -34,6 +34,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath*:mapper/**/*Mapper.xml
+  #配置了这个log-impl节点，sql无法输出到文件中，控制台可以正常打印
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
@@ -45,3 +46,7 @@ ali:
     templateCode_CheckCode: SMS_173476438
     templateCode_FK: SMS_173476685
 
+logging:
+  config: classpath:logback.xml
+  level:
+    com.mycom.ssmdemo: debug  #打印sql

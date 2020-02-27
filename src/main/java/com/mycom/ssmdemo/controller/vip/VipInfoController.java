@@ -71,4 +71,9 @@ public class VipInfoController {
     public ResponseData getCheckCode(@RequestParam Map<String, Object> map){
         return vipService.getCheckCode(map);
     }
+    @PostMapping("/verifyvip")
+    public ResponseData verifyVip(@RequestParam Map<String, Object> params){
+        return vipService.verifyVip(params);
+    }
+
 }

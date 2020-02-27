@@ -18,4 +18,6 @@ public interface VipInfoMapper {
     VipInfo queryVipByMobile(Map<String, Object> params);
 
     Map<String, Object> getMaxVipCode();
+
+    VipInfo queryVipByVipCode(Map<String, Object> params);
 }

@@ -37,4 +37,6 @@ public interface VipService {
 
     void viewPic(String vipCode, HttpServletResponse response) throws IOException;
 
+    ResponseData verifyVip(Map<String, Object> params);
+
 }

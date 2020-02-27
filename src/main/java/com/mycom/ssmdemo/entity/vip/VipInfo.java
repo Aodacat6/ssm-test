@@ -16,7 +16,10 @@ public class VipInfo {
     private String city;
     private String district;
     private String mobile;
-    private String password;
+    /*
+         transient关键字修饰属性值，序列化时会自动忽略
+     */
+    private transient String password;
     private String vipSource;
     private String vipCode;
 }

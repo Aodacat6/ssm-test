@@ -1,0 +1,31 @@
+{
+  "name" : "Tvipfile",
+  "comment" : null,
+  "fullColumn" : [ {
+    "name" : "vipCode",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "fileName",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "fileDir",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  } ],
+  "pkColumn" : null,
+  "otherColumn" : null,
+  "savePackageName" : "",
+  "savePath" : "D:/ddd",
+  "saveModelName" : "ssmdemo"
+}

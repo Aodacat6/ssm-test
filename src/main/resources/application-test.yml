@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/himonitest?useUnicode=true&characterEncoding=utf-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: secret
@@ -37,3 +37,8 @@ ali:
     signName: 大喵社区
     templateCode_CheckCode: SMS_173476438
     templateCode_FK: SMS_173476685
+
+logging:
+  config: classpath:logback.xml
+  level:
+    com.mycom.ssmdemo: debug  #打印sql

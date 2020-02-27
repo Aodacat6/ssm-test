@@ -46,7 +46,7 @@ public class SingAOP {
         System.out.println("-----------------in----------------------");
         Object[] obj = joinPoint.getArgs();
         String key = obj[0].toString();
-        LoggerUtils.getLogger().info("输入：key:" + key);
+        LoggerUtils.getLogger().info("receive:" + key);
         System.out.println("-----------------out----------------------");
     }
 

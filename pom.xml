@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
+    <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.4.RELEASE</version>
@@ -16,6 +16,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<skipTests>true</skipTests>
 	</properties>
 
 	<dependencies>
@@ -53,11 +54,27 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<!-- mysql数据库配置 end -->
+		<!--
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		-->
+		<!-- sl4j + logback start-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
@@ -104,7 +121,11 @@
 			<optional>true</optional>
 			<scope>true</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>1.4.0</version>
+		</dependency>
     </dependencies>
 
 	<!-- 这是maven的profile配置文件切换处，搭配springboot自身的profile切换机制，
@@ -138,10 +159,22 @@
 					<include>application.yml</include>
 					<include>application-${profileActive}.yml</include>
 					<include>mapper/**/*.xml</include>
-					<include>log4j.properties</include>
+					<!--<include>log4j.properties</include>-->
 					<include>static/*.html</include>
+					<include>logback.xml</include>
+					<!--<include>config/*.xml</include>-->
+					<include>mybatis/*.xml</include>
 				</includes>
 			</resource>
 		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.mycom.ssmdemo.SsmdemoApplication</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>
