@@ -39,4 +39,6 @@ public interface VipService {
 
     ResponseData verifyVip(Map<String, Object> params);
 
+    ResponseData getAllVip(Map<String, Object> params);
+
 }

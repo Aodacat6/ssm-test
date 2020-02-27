@@ -13,9 +13,32 @@ import java.util.Map;
  * @version: 1.0.0$
  */
 public class ResponseData {
+
     private int code;
+
     private String msg;
-    //private List data = new ArrayList();
+
+    private long count;
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
+    public List getData() {
+        return data;
+    }
+
+    public void setData(List data) {
+        this.data = data;
+    }
+
+    //list返回json对应的是[]
+    private List data = new ArrayList();
+    //map返回json对应的是{}
     private Map<String,Object> meta = new HashMap<>();
 
     private ResponseData putData(String key, Object value){
@@ -26,13 +49,24 @@ public class ResponseData {
         this.code = code;
         this.msg = msg;
     }
-
+    private ResponseData(int code, String msg, long count) {
+        this.code = code;
+        this.msg = msg;
+        this.count = count;
+    }
     public static ResponseData okData(String key, Object value){
 
         ResponseData data = new ResponseData(0,"ok");
         data.putData(key, value);
         return data;
     }
+
+    public static ResponseData okData(List value, long count) {
+        ResponseData data = new ResponseData(0, "ok", count);
+        data.putData(value);
+        return data;
+    }
+
     public static ResponseData ok(){
         return new ResponseData(0, "ok");
     }
@@ -65,5 +99,10 @@ public class ResponseData {
 
     public void setMeta(Map<String, Object> meta) {
         this.meta = meta;
+    }
+
+    public ResponseData putData(List value) {
+        data.addAll(value);
+        return this;
     }
 }

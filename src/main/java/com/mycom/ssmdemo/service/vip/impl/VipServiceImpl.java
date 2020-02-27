@@ -2,6 +2,8 @@ package com.mycom.ssmdemo.service.vip.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.exceptions.ClientException;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mycom.ssmdemo.common.commexception.BizException;
 import com.mycom.ssmdemo.common.commonutil.CommonUtils;
 import com.mycom.ssmdemo.common.commonutil.DateUtils;
@@ -12,7 +14,6 @@ import com.mycom.ssmdemo.entity.org.OrgInfo;
 import com.mycom.ssmdemo.entity.user.User;
 import com.mycom.ssmdemo.entity.vip.VipInfo;
 import com.mycom.ssmdemo.entity.vip.VipPicture;
-import com.mycom.ssmdemo.entity.vip.VipRegInfo;
 import com.mycom.ssmdemo.mapper.vip.VipInfoMapper;
 import com.mycom.ssmdemo.mapper.vip.VipPictureMapper;
 import com.mycom.ssmdemo.mapper.vip.VipRegInfoMapper;
@@ -21,9 +22,10 @@ import com.mycom.ssmdemo.service.user.UserService;
 import com.mycom.ssmdemo.service.vip.VipService;
 import com.mycom.ssmdemo.thridPlugin.AliSms;
 import com.mycom.ssmdemo.util.FileUpandDown;
+import com.mycom.ssmdemo.util.LoggerUtils;
 import com.mycom.ssmdemo.util.RedisUtils;
+import com.mysql.cj.util.LogUtils;
 import com.mysql.cj.util.StringUtils;
-import jdk.jfr.events.ErrorThrownEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -447,6 +449,36 @@ public class VipServiceImpl implements VipService {
             throw new BizException("密码输入错误！");
         }
         return ResponseData.okData("vipInfo", vipInfo);
+    }
+
+    /**
+     * pageHelper是mybaits的分页插件，通过设置pageHelper.start()，就可以实现mybatis查询结果分页
+     * pageHelper是物理分页，每次执行会查询两个，第一次查询所有所有数据数量，
+     *                                          第二次用mysql的limit satrtno, size进行分页查询
+     * @param params
+     * @return
+     */
+    @Override
+    public ResponseData getAllVip(Map<String, Object> params) {
+
+        String page = params.getOrDefault("pageNo", "").toString();
+        String size = params.getOrDefault("pageSize", "").toString();
+
+        List<VipInfo> list = null;
+        if (StringUtils.isNullOrEmpty(page) || StringUtils.isNullOrEmpty(page)){
+            list = vipInfoMapper.getAllVip();
+        }else {  //不为空时，按传入的参数查询
+            int pageNo = Integer.parseInt(page);
+            int pageSize = Integer.parseInt(size);
+            PageHelper.startPage(pageNo, pageSize);
+            list = vipInfoMapper.getAllVip();
+        }
+
+        PageInfo<VipInfo> pageInfo = new PageInfo<>(list);
+        //test
+        LoggerUtils.getLogger().info(pageInfo.toString());
+        //根据传入的page信息查询返回对应的会员信息，并返回所有会员总数，和本次页数无关
+        return ResponseData.okData(list, pageInfo.getTotal());
     }
 
 }

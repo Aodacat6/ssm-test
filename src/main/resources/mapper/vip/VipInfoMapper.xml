@@ -67,6 +67,10 @@
         </where>
         limit 1
     </select>
+
+    <select id="getAllVip"  resultType="com.mycom.ssmdemo.entity.vip.VipInfo">
+        select name,sex,orgcode,orgname,vipBirthday,password from tisuvipinfo
+    </select>
     <!--
     <update id="updateUser" parameterType="org.spring.web.entity.User" >
         UPDATE

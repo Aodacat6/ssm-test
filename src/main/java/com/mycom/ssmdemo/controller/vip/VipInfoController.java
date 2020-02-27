@@ -75,5 +75,9 @@ public class VipInfoController {
     public ResponseData verifyVip(@RequestParam Map<String, Object> params){
         return vipService.verifyVip(params);
     }
+    @GetMapping("/queryall")
+    public ResponseData queryAllVip(@RequestParam Map<String, Object> map){
+        return vipService.getAllVip(map);
+    }
 
 }
