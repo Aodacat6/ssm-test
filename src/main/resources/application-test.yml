@@ -10,7 +10,7 @@ spring:
 
   redis:
     database: 6
-    host: 47.97.100.40
+    host:
     port: 6379
     password: vVc++Qvodte69284TY@MNL*$9084o
     jedis:
@@ -33,7 +33,7 @@ mybatis:
 ali:
   sms:
     accessKeyId: LTAI4FrVwCKTLrTB6ix9tqsS
-    accessSecret: rJD7cUT97SwV9PcyiqJ5oRMV4BvzxQ
+    accessSecret:
     signName: 大喵社区
     templateCode_CheckCode: SMS_173476438
     templateCode_FK: SMS_173476685
