@@ -17,7 +17,7 @@ spring:
 
   redis:
     database: 6
-    host:
+    host: 127.0.0.1
     port: 6379
     password: vVc++Qvodte69284TY@MNL*$9084o
     jedis:

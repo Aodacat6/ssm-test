@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mycom.ssmdemo.mapper.shiro.ShiroMapper" >
+
+
+    <resultMap id="BaseResultMap" type="com.mycom.ssmdemo.entity.shiro.Userforshiro">
+        <result column="id" property="userID"  />
+        <result column="username" property="username" />
+        <result column="password" property="password"  />
+        <collection property="roleList" column="id" javaType="list" select="getRoles" >
+        </collection>
+    </resultMap>
+
+    <resultMap id="RolesPermissionsResultMap" type="com.mycom.ssmdemo.entity.shiro.Roleforshiro" >
+        <result column="id" property="roleID" />
+        <result column="roleName" property="roleName"/>
+        <collection property="permissionsList" column="id" javaType="list" select="getPermissions">
+        </collection>
+    </resultMap>
+
+    <!-- 根据roleid查询出权限信息-->
+    <select id="getPermissions" parameterType="Integer" resultType="com.mycom.ssmdemo.entity.shiro.Permissionsforshiro" >
+        select a.id as permissionID,a.permissionsName
+            from permissionsforshiro a, roleofpermissionforshiro b
+            where a.id = b.permissionid and b.roleid = #{roleID}
+    </select>
+    <!--根据用户id查询出所有的角色信息 -->
+    <select id="getRoles" parameterType="Integer" resultMap="RolesPermissionsResultMap">
+        select a.id, a.roleName
+            from roleforshiro a, userbandroleforshiro b
+            where a.id = b.roleid and b.userid = #{userID}
+    </select>
+    <!--根据用户id查询出用户信息，再去resultmap中关联 -->
+    <select id="getRolePermissionByUserName" parameterType="String" resultMap="BaseResultMap" >
+        select id, username, password from userforshiro where username = #{username}
+    </select>
+
+</mapper>
