@@ -48,7 +48,7 @@ public class CustomRealm extends AuthorizingRealm {
         if (user == null){
             throw new BizException("用户信息不存在！");
         }
-        //SimpleAuthorizationInfo 角色权限管理器
+        //SimpleAuthorizationInfo 角色权限管理器d
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         //将角色信息和权限信息依次添加到 管理器中
         for (Roleforshiro role : user.getRoleList()){

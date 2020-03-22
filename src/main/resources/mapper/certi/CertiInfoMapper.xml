@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mycom.ssmdemo.mapper.certi.CertiInfoMapper" >
+
+    <!-- 这里是定义了一个 一对多（一个pojo对多张表） 的映射关系
+       resultMap是高级映射关系，可以映射字段名称什么的
+       resultMap相当于是定义了一种返回值类型，去和pojo的类型匹配
+       因为pojo中如果一对多的list，只能用resultmap的collection表示-->
+    <resultMap id="OrgVipInfoResultMap" type="com.mycom.ssmdemo.entity.org.OrgVipInfo" >
+        <result column="certino" property="certiNo"/>
+        <result column="applyuser" property="applyUser"/>
+    </resultMap>
+
+    <select id="qryCertiInfo" parameterType="map" resultType="com.mycom.ssmdemo.entity.certi.CertiInfo">
+        select certino, applyuser
+        from tcertiinfo
+        where applyuser = #{applyUser}
+    </select>
+
+    <insert id="addCertiInfo" parameterType="map">
+        insert into tcertiinfo
+        values
+        (
+            #{certiNo},
+            #{applyUser}
+        )
+    </insert>
+
+    <select id="getMaxCertiNo" resultType="com.mycom.ssmdemo.entity.certi.CertiInfo">
+        select max(certino) as certiNo from tcertiinfo
+    </select>
+</mapper>
