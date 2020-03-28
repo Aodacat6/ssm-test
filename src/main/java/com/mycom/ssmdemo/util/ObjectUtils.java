@@ -39,33 +39,5 @@ public class ObjectUtils {
         return isEmpty;
     }
 
-    /**
-     * 反射机制测试
-     * @param args
-     */
-/*    public static void main(String[] args){
-        //通过对象获得类信息
-        Food food = new Food();
-        //重量是空的
-        food.setName("米多奇膜片");
-        food.setBrand("米多奇");
-        food.setPrice(30.2);
-        Field[] fields = Food.class.getDeclaredFields();
 
-        for (Field field : fields){
-            try {
-                field.setAccessible(true);
-                Object obj = field.get(food);
-                if (obj == null || "".equals(obj)) {
-                    System.out.println("youkongzhi：" + field.getName());
-                    break;
-                };
-                //System.out.println(field.get(food).toString());
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //System.out.println(Arrays.toString(fields));
-    }*/
 }
